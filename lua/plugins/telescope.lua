@@ -12,17 +12,13 @@ return {
 					return vim.fn.executable("make") == 1
 				end,
 			},
-			{ "nvim-telescope/telescope-ui-select.nvim" },
 			{ "brookhong/telescope-pathogen.nvim" },
 			{ "nvim-tree/nvim-web-devicons", enabled = vim.g.have_nerd_font },
 		},
 		config = function()
 			-- [[ Configure Telescope ]]
-			require("telescope").setup({
-				extensions = {
-					["ui-select"] = {
-                        require("telescope.themes").get_dropdown(),
-                    },
+            require("telescope").setup({
+                extensions = {
                     ["pathogen"] = {
                         attach_mappings = function(map, actions)
                             map("i", "<C-o>", actions.proceed_with_parent_dir)
@@ -41,10 +37,13 @@ return {
 
             -- Enable Telescope extensions if they are installed
             pcall(require("telescope").load_extension, "fzf")
-            pcall(require("telescope").load_extension, "ui-select")
             pcall(require("telescope").load_extension, "pathogen")
+            local no_preview = function()
+                return require('telescope.themes').get_dropdown({
+                })
+            end
 
-			local builtin = require("telescope.builtin")
+            local builtin = require("telescope.builtin")
             local exten = require("telescope").extensions
 
 			vim.keymap.set("n", "<leader>sh", builtin.help_tags, { desc = "[S]earch [H]elp" })
@@ -83,6 +82,7 @@ return {
 			--  See `:help telescope.builtin.live_grep()` for information about particular keys
 			vim.keymap.set("n", "<leader>s/", function()
 				builtin.live_grep({
+                    style = 'rounded',
 					grep_open_files = true,
 					prompt_title = "Live Grep in Open Files",
 				})

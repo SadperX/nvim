@@ -45,6 +45,7 @@ return {
 					--    ['<C-y>'] = cmp.mapping.confirm { select = true },
 
 					["<C-CR>"] = cmp.mapping.confirm({ select = true }),
+					["<C-i>"] = cmp.mapping.confirm({ select = true }),
 					-- Manually trigger a completion from nvim-cmp.
 					["<C-Space>"] = cmp.mapping.complete({}),
 
@@ -87,7 +88,25 @@ return {
 			notify_on_error = false,
 			formatters_by_ft = {
 				lua = { "stylua" },
+                json = { "jq"}
 			},
-		},
-	},
+        },
+    },
+    { -- Emacs like comple mode
+        "ej-shafran/compile-mode.nvim",
+        branch = "latest",
+        dependencies = {
+            "nvim-lua/plenary.nvim",
+            -- if you want to enable coloring of ANSI escape codes in
+            -- compilation output, add:
+            "m00qek/baleia.nvim",
+        },
+        config = function ()
+            require('compile-mode').setup({
+                baleia_setup = true
+            })
+            vim.keymap.set('n', '<leader>cm', ':Compile<CR>')
+            vim.keymap.set('n', '<leader>rc', ':Recompile<CR>')
+        end
+    }
 }

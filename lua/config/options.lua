@@ -6,6 +6,7 @@ vim.cmd("set shiftwidth=4")
 vim.cmd('set guicursor=""')
 vim.cmd("set guifont=Iosevka\\ Nerd\\ Font\\ Mono")
 vim.cmd("set termguicolors")
+vim.cmd("set conceallevel=2")
 vim.opt.number = true
 
 -- Highlight thing?

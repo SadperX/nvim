@@ -28,9 +28,28 @@ return {
 	{
 		"nvim-lualine/lualine.nvim",
 		dependencies = { "nvim-tree/nvim-web-devicons" },
-		config = function()
-			require("lualine").setup({
-				options = {
+        config = function()
+            local pwd = function ()
+                local dir = vim.fn.expand('%:p:h')
+                if dir:find('^/home/zeta') then
+                    dir = dir:gsub('^/home/zeta', '~')
+                end
+                local path_parts = {}
+                for part in dir:gmatch('[^/]+') do
+                    table.insert(path_parts, part)
+                end
+
+                local result = ""
+                if #path_parts > 3 then
+                    result = ".../" .. table.concat(path_parts, "/", #path_parts - 1)
+                else
+                    result = dir
+                end
+
+                return result
+            end
+            require("lualine").setup({
+                options = {
 					icons_enabled = true,
 					component_separators = { left = "", right = "" },
 					section_separators = { left = "", right = "" },
@@ -49,17 +68,17 @@ return {
 				},
 				sections = {
 					lualine_a = { "mode" },
-					lualine_b = { "branch", "diff", "diagnostics" },
-					lualine_c = { "filename" },
-					lualine_x = { "encoding", "fileformat", "filetype" },
-					lualine_y = { "progress" },
+					lualine_b = {  "buffers",--[["branch",  "diagnostics"]] },
+					lualine_c = { pwd },
+					lualine_x = { --[["fileformat",]] "filetype" },
+					lualine_y = { "progress", "diff" },
 					lualine_z = { "location" },
 				},
 				inactive_sections = {
 					lualine_a = {},
 					lualine_b = {},
-					lualine_c = { "filename" },
-					lualine_x = { "location" },
+					lualine_c = { "filename", "filetype" },
+					lualine_x = {},
 					lualine_y = {},
 					lualine_z = {},
 				},
