@@ -44,7 +44,7 @@ return {
 
 					--    ['<C-y>'] = cmp.mapping.confirm { select = true },
 
-					["<CR>"] = cmp.mapping.confirm({ select = true }),
+					["<C-CR>"] = cmp.mapping.confirm({ select = true }),
 					-- Manually trigger a completion from nvim-cmp.
 					["<C-Space>"] = cmp.mapping.complete({}),
 
@@ -64,7 +64,7 @@ return {
 				}),
 				sources = {
 					{ name = "nvim_lsp" },
-					{ name = "luasnip" },
+					-- { name = "luasnip" },
 					{ name = "path" },
 				},
 			})
