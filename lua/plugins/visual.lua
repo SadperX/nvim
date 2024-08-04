@@ -1,4 +1,22 @@
 return {
+    {
+        'folke/which-key.nvim',
+        event = 'VimEnter', -- Sets the loading event to 'VimEnter'
+        config = function() -- This is the function that runs, AFTER loading
+            require('which-key').setup()
+
+            -- Document existing key chains
+            require('which-key').add {
+                { '<leader>c', group = '[C]ode' },
+                { '<leader>d', group = '[D]ocument' },
+                { '<leader>r', group = '[R]ename' },
+                { '<leader>h', group = '[H]arpoon' },
+                { '<leader>s', group = '[S]earch' },
+                { '<leader>w', group = '[W]orkspace' },
+                { '<leader>sp', group = '[S]earch [P]athogen'}
+            }
+        end,
+    },
 	{ -- Highlight, edit, and navigate code
 		"nvim-treesitter/nvim-treesitter",
 		build = ":TSUpdate",
@@ -27,7 +45,7 @@ return {
 	},
 	{
 		"nvim-lualine/lualine.nvim",
-		dependencies = { "nvim-tree/nvim-web-devicons" },
+		dependencies = { "nvim-tree/nvim-web-devicons",  "letieu/harpoon-lualine", },
         config = function()
             local pwd = function ()
                 local dir = vim.fn.expand('%:p:h')
@@ -50,8 +68,9 @@ return {
             end
             require("lualine").setup({
                 options = {
+                    theme = "gruber-darker",
 					icons_enabled = true,
-					component_separators = { left = "", right = "" },
+					component_separators = { left = "/", right = "\\" },
 					section_separators = { left = "", right = "" },
 					disabled_filetypes = {
 						statusline = {},
@@ -68,16 +87,16 @@ return {
 				},
 				sections = {
 					lualine_a = { "mode" },
-					lualine_b = {  "buffers",--[["branch",  "diagnostics"]] },
+					lualine_b = { "filename", "harpoon2", --[["branch",  "diagnostics"]] },
 					lualine_c = { pwd },
 					lualine_x = { --[["fileformat",]] "filetype" },
 					lualine_y = { "progress", "diff" },
 					lualine_z = { "location" },
 				},
 				inactive_sections = {
-					lualine_a = {},
+					lualine_a = {"filename", "filetype"},
 					lualine_b = {},
-					lualine_c = { "filename", "filetype" },
+					lualine_c = { "mode"},
 					lualine_x = {},
 					lualine_y = {},
 					lualine_z = {},

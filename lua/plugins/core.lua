@@ -1,4 +1,12 @@
 return {
+    {
+        "no-clown-fiesta/no-clown-fiesta.nvim",
+        config = function ()
+            require("no-clown-fiesta").setup({
+                transparent = true;
+            })
+        end
+    },
     { 
         "blazkowolf/gruber-darker.nvim",
         config = function ()
